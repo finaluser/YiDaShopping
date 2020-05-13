@@ -1,65 +1,27 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="true" scanPeriod="60 seconds" debug="false">
-    <!--参数常量-->
-    <!--日志级别:debug<info<warn<error-->
-    <property name="log.level" value="debug"/>
-    <!--最大保留时间-->
-    <property name="log.maxHistory" value="30"/>
-    <!--本地日志输出位置:-->
-    <property name="log.filePath" value="/JaMeiLeResources/ProjectLog"/>
-    <!--服务器日志位置-->
-    <!--    <property name="log.filePath" value="${catalina.base}/logs/webapps"/>-->
-    <!--日志展现格式-->
-    <property name="log.pattern" value="时间:%d{yyyy-MM-dd HH:mm:ss.SSS} 线程:[%thread] 级别:%-5level 执行的方法:%logger{50} \n 详细:%msg %n"/>
+    <contextName>YiDa</contextName>
+    <property name="log.path" value="log" />
+    <property name="log.maxHistory" value="15" />
+    <property name="log.colorPattern" value="%magenta(%d{yyyy-MM-dd HH:mm:ss}) %highlight(%-5level) %yellow(%thread) %green(%logger) %msg%n"/>
+    <property name="log.pattern" value="%d{yyyy-MM-dd HH:mm:ss} %-5level %thread %logger %msg%n"/>
 
-    <!--日志显示的位置-->
-    <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+    <!--输出到控制台-->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>${log.pattern}</pattern>
+            <pattern>${log.colorPattern}</pattern>
         </encoder>
     </appender>
 
-    <!--Debug日志配置-->
-    <appender name="debugAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <!--文件路径-->
-        <file>${log.filePath}/debug.log</file>
-        <!--滚动策略-->
+    <!--输出到文件-->
+    <appender name="file_info" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!--文件名称-->
-            <fileNamePattern>
-                ${log.filePath}/debug/debug.%d{yyyy-MM-dd}.log.gz
-            </fileNamePattern>
-            <!--最大保存时间-->
+            <fileNamePattern>${log.path}/info/info.%d{yyyy-MM-dd}.log</fileNamePattern>
             <MaxHistory>${log.maxHistory}</MaxHistory>
         </rollingPolicy>
         <encoder>
             <pattern>${log.pattern}</pattern>
         </encoder>
-        <!--设置过滤规则-->
-        <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>DEBUG</level>
-            <onMatch>ACCEPT</onMatch>
-            <onMismatch>DENY</onMismatch>
-        </filter>
-    </appender>
-
-    <!--INFO日志配置-->
-    <appender name="infoAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <!--文件路径-->
-        <file>${log.filePath}/info.log</file>
-        <!--滚动策略-->
-        <RollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!--文件名称-->
-            <fileNamePattern>
-                ${log.filePath}/info/info.%d{yyyy-MM-dd}.log.gz
-            </fileNamePattern>
-            <!--最大保存时间-->
-            <MaxHistory>${log.maxHistory}</MaxHistory>
-        </RollingPolicy>
-        <encoder>
-            <pattern>${log.pattern}</pattern>
-        </encoder>
-        <!--设置过滤规则-->
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>INFO</level>
             <onMatch>ACCEPT</onMatch>
@@ -67,23 +29,13 @@
         </filter>
     </appender>
 
-    <!--ERROR日志配置-->
-    <appender name="errorAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <!--文件路径-->
-        <file>${log.filePath}/error.log</file>
-        <!--滚动策略-->
+    <appender name="file_error" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!--文件名称-->
-            <fileNamePattern>
-                ${log.filePath}/error/error.%d{yyyy-MM-dd}.log.gz
-            </fileNamePattern>
-            <!--最大保存时间-->
-            <MaxHistory>${log.maxHistory}</MaxHistory>
+            <fileNamePattern>${log.path}/error/error.%d{yyyy-MM-dd}.log</fileNamePattern>
         </rollingPolicy>
         <encoder>
             <pattern>${log.pattern}</pattern>
         </encoder>
-        <!--设置过滤规则-->
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>ERROR</level>
             <onMatch>ACCEPT</onMatch>
@@ -91,14 +43,12 @@
         </filter>
     </appender>
 
-    <logger name="com.chen" level="${log.level}" additivity="true">
-        <appender-ref ref="debugAppender"/>
-        <appender-ref ref="infoAppender"/>
-        <appender-ref ref="errorAppender"/>
-    </logger>
-
-    <root level="INFO">
-        <appender-ref ref="consoleAppender"/>
+    <root level="debug">
+        <appender-ref ref="console" />
     </root>
 
+    <root level="info">
+        <appender-ref ref="file_info" />
+        <appender-ref ref="file_error" />
+    </root>
 </configuration>

@@ -33,9 +33,7 @@ public class UserController {
      */
     @PostMapping(value = "/login")
     public ServerResponse<User> login(@RequestBody User user, HttpSession session) {
-        String username = user.getUsername();
-        String password = user.getPassword();
-        ServerResponse<User> response = iUserService.login(username, password);
+        ServerResponse<User> response = iUserService.login(user.getUsername(), user.getPassword());
         if (response != null) {
             session.setAttribute(Const.CURRENT_USER, response.getData());
         }
