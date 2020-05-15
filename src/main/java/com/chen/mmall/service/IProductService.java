@@ -1,9 +1,9 @@
 package com.chen.mmall.service;
 
-import com.github.pagehelper.PageInfo;
 import com.chen.mmall.common.ServerResponse;
 import com.chen.mmall.pojo.Product;
 import com.chen.mmall.vo.ProductDetailVO;
+import com.github.pagehelper.PageInfo;
 
 public interface IProductService {
 

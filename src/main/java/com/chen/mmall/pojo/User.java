@@ -9,7 +9,10 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class User {
+public class User implements java.io.Serializable {
+
+    private static final long serialVersionUID = -4270729894913357131L;
+
     private Integer id;
 
     private String username;

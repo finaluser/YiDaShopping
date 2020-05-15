@@ -1,7 +1,5 @@
 package com.chen.mmall.service.impl;
 
-import com.google.common.base.Splitter;
-import com.google.common.collect.Lists;
 import com.chen.mmall.common.Const;
 import com.chen.mmall.common.ResponseCode;
 import com.chen.mmall.common.ServerResponse;
@@ -14,6 +12,8 @@ import com.chen.mmall.util.BigDecimalUtil;
 import com.chen.mmall.util.PropertiesUtil;
 import com.chen.mmall.vo.CartProductVO;
 import com.chen.mmall.vo.CartVO;
+import com.google.common.base.Splitter;
+import com.google.common.collect.Lists;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

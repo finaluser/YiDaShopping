@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * FTP服务器工具类
@@ -19,7 +20,7 @@ public class FTPUtil {
     private static String ftpIp = PropertiesUtil.getProperty("ftp.server.ip");
     private static String ftpUser = PropertiesUtil.getProperty("ftp.user");
     private static String ftpPass = PropertiesUtil.getProperty("ftp.pass");
-    private static Integer ftpPort = Integer.parseInt(PropertiesUtil.getProperty("ftp.port"));
+    private static Integer ftpPort = Integer.parseInt(Objects.requireNonNull(PropertiesUtil.getProperty("ftp.port")));
 
     public FTPUtil(String ip, int port, String user, String pwd) {
         this.ip = ip;
@@ -56,9 +57,10 @@ public class FTPUtil {
             } catch (IOException e) {
                 logger.error("上传文件异常", e);
                 uploaded = false;
-                e.printStackTrace();
             } finally {
-                fis.close();
+                if (fis != null){
+                    fis.close();
+                }
                 ftpClient.disconnect();
             }
         }

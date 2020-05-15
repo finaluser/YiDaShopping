@@ -1,8 +1,5 @@
 package com.chen.mmall.service.impl;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import com.google.common.collect.Lists;
 import com.chen.mmall.common.Const;
 import com.chen.mmall.common.ResponseCode;
 import com.chen.mmall.common.ServerResponse;
@@ -16,6 +13,9 @@ import com.chen.mmall.util.DateTimeUtil;
 import com.chen.mmall.util.PropertiesUtil;
 import com.chen.mmall.vo.ProductDetailVO;
 import com.chen.mmall.vo.ProductListVO;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -217,7 +217,9 @@ public class ProductServiceImpl implements IProductService {
                 PageInfo pageInfo = new PageInfo(productListVOList);
                 return ServerResponse.createBySuccess(pageInfo);
             }
-            categoryIdList = iCategoryService.selectCategoryAndChildrenById(category.getId()).getData();
+            if(category != null){
+                categoryIdList = iCategoryService.selectCategoryAndChildrenById(category.getId()).getData();
+            }
         }
         // 组装关键字
         if (StringUtils.isNotBlank(keyword)) {

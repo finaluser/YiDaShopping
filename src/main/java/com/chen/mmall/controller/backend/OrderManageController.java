@@ -9,6 +9,7 @@ import com.chen.mmall.service.IUserService;
 import com.chen.mmall.vo.OrderVO;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,7 +41,7 @@ public class OrderManageController {
      * @param pageSize
      * @return
      */
-    @RequestMapping("/orderlist")
+    @GetMapping("/orderlist")
     public ServerResponse<PageInfo> orderList(HttpSession session,
                                               @RequestParam(value = "pageNum", defaultValue = "0") int pageNum,
                                               @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
@@ -62,7 +63,7 @@ public class OrderManageController {
      * @param orderNo
      * @return
      */
-    @RequestMapping("/detail")
+    @GetMapping("/detail")
     public ServerResponse<OrderVO> orderDetail(HttpSession session, Long orderNo) {
         User user = (User) session.getAttribute(Const.CURRENT_USER);
         if (user == null) {
@@ -84,7 +85,7 @@ public class OrderManageController {
      * @param pageSize
      * @return
      */
-    @RequestMapping("/search")
+    @GetMapping("/search")
     public ServerResponse<PageInfo> searchOrder(HttpSession session, Long orderNo,
                                                 @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                                 @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
@@ -106,7 +107,7 @@ public class OrderManageController {
      * @param orderNo
      * @return
      */
-    @RequestMapping("/send_goods")
+    @GetMapping("/send_goods")
     public ServerResponse<String> orderSendGoods(HttpSession session, Long orderNo) {
         User user = (User) session.getAttribute(Const.CURRENT_USER);
         if (user == null) {

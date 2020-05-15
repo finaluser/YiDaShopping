@@ -10,10 +10,6 @@ import com.alipay.demo.trade.model.result.AlipayF2FPrecreateResult;
 import com.alipay.demo.trade.service.AlipayTradeService;
 import com.alipay.demo.trade.service.impl.AlipayTradeServiceImpl;
 import com.alipay.demo.trade.utils.ZxingUtils;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.chen.mmall.common.Const;
 import com.chen.mmall.common.ServerResponse;
 import com.chen.mmall.dao.*;
@@ -27,6 +23,10 @@ import com.chen.mmall.vo.OrderItemVO;
 import com.chen.mmall.vo.OrderProductVO;
 import com.chen.mmall.vo.OrderVO;
 import com.chen.mmall.vo.ShippingVO;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -37,7 +37,11 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.*;
+import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @program: mmall
@@ -290,7 +294,7 @@ public class OrderServiceImpl implements IOrderService {
     // 订单号的生成规则非常重要
     private long generateOrderNo() {
         long currentTime = System.currentTimeMillis();
-        return currentTime + new Random().nextInt(100);
+        return currentTime + new SecureRandom().nextInt(100);
     }
 
     private BigDecimal getOrderTotalPrice(List<OrderItem> orderItemList) {
@@ -400,7 +404,7 @@ public class OrderServiceImpl implements IOrderService {
         for (OrderItem orderItem : orderItemList
         ) {
             GoodsDetail goods = GoodsDetail.newInstance(orderItem.getProductId().toString(), orderItem.getProductName(),
-                    BigDecimalUtil.mul(orderItem.getCurrentUnitPrice().doubleValue(), new Double(100).doubleValue()).longValue(),
+                    BigDecimalUtil.mul(orderItem.getCurrentUnitPrice().doubleValue(), 100.0).longValue(),
                     orderItem.getQuantity());
             goodsDetailList.add(goods);
         }
@@ -432,8 +436,12 @@ public class OrderServiceImpl implements IOrderService {
 
                 File folder = new File(path);
                 if (!folder.exists()) {
-                    folder.setWritable(true);
-                    folder.mkdirs();
+                    if (folder.setWritable(true)) {
+                        logger.info("设置文件写入权限成功");
+                    }
+                    if (folder.mkdirs()) {
+                        logger.info("创建文件成功");
+                    }
                 }
 
                 // 需要修改为运行机器上的路径
@@ -525,7 +533,7 @@ public class OrderServiceImpl implements IOrderService {
         // TODO 如果不注释下一行,则会出现查询错误
 //        PageHelper.startPage(pageNum,pageSize);
         List<Order> orderList = orderMapper.selectAllOrder();
-        List<OrderVO> orderVoList = this.assembleOrderVOList(orderList,null);
+        List<OrderVO> orderVoList = this.assembleOrderVOList(orderList, null);
         PageInfo pageResult = new PageInfo(orderList);
         pageResult.setList(orderVoList);
         return ServerResponse.createBySuccess(pageResult);

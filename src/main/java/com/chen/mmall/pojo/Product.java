@@ -36,6 +36,4 @@ public class Product {
     private Date updateTime;
 
 
-
-
 }

@@ -12,6 +12,7 @@ import com.google.common.collect.Maps;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -43,7 +44,7 @@ public class OrderController {
      * @param orderNo 订单号
      * @return
      */
-    @RequestMapping("/get_order_cart_product")
+    @GetMapping("/get_order_cart_product")
     public ServerResponse getOrderCartProduct(HttpSession session, Long orderNo) {
         User user = (User) session.getAttribute(Const.CURRENT_USER);
         if (user == null) {
@@ -59,7 +60,7 @@ public class OrderController {
      * @param orderNo 订单号
      * @return
      */
-    @RequestMapping("/detail")
+    @GetMapping("/detail")
     public ServerResponse detail(HttpSession session, Long orderNo) {
         User user = (User) session.getAttribute(Const.CURRENT_USER);
         if (user == null) {
@@ -76,7 +77,7 @@ public class OrderController {
      * @param pageSize
      * @return
      */
-    @RequestMapping("/list")
+    @GetMapping("/list")
     public ServerResponse list(HttpSession session,
                                @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
@@ -95,7 +96,7 @@ public class OrderController {
      * @param orderNo 订单号码
      * @return
      */
-    @RequestMapping("/cancle")
+    @GetMapping("/cancle")
     public ServerResponse cancle(HttpSession session, Long orderNo) {
         User user = (User) session.getAttribute(Const.CURRENT_USER);
         if (user == null) {
@@ -111,11 +112,12 @@ public class OrderController {
      * @param shippingId 发货地址ID
      * @return
      */
-    @RequestMapping("/create")
+    @GetMapping("/create")
     public ServerResponse create(HttpSession session, Integer shippingId) {
         User user = (User) session.getAttribute(Const.CURRENT_USER);
         if (user == null) {
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), ResponseCode.NEED_LOGIN.getDesc());
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),
+                    ResponseCode.NEED_LOGIN.getDesc());
         }
         return iOrderService.createOrder(user.getId(), shippingId);
     }
@@ -128,11 +130,12 @@ public class OrderController {
      * @param request HTTP请求
      * @return
      */
-    @RequestMapping("/pay")
+    @GetMapping("/pay")
     public ServerResponse pay(HttpSession session, Long orderNo, HttpServletRequest request) {
         User user = (User) session.getAttribute(Const.CURRENT_USER);
         if (user == null) {
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), ResponseCode.NEED_LOGIN.getDesc());
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),
+                    ResponseCode.NEED_LOGIN.getDesc());
         }
 
         String path = request.getSession().getServletContext().getRealPath("upload");
@@ -145,7 +148,7 @@ public class OrderController {
      * @param request HTTP请求
      * @return
      */
-    @RequestMapping(value = "/alipay_callback")
+    @GetMapping(value = "/alipay_callback")
     public Object alipayCallback(HttpServletRequest request) {
         Map<String, String> params = Maps.newHashMap();
 
@@ -186,11 +189,12 @@ public class OrderController {
      * @param orderNo
      * @return
      */
-    @RequestMapping("/query_order_pay_status")
+    @GetMapping("/query_order_pay_status")
     public ServerResponse<Boolean> queryOrderPayStatus(HttpSession session, Long orderNo) {
         User user = (User) session.getAttribute(Const.CURRENT_USER);
         if (user == null) {
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), ResponseCode.NEED_LOGIN.getDesc());
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),
+                    ResponseCode.NEED_LOGIN.getDesc());
         }
         ServerResponse serverResponse = iOrderService.queryOrderPayStatus(user.getId(), orderNo);
         if (serverResponse.isSuccess()) {

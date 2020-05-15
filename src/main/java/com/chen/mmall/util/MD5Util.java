@@ -42,6 +42,7 @@ public class MD5Util {
                 resultString = byteArrayToHexString(md.digest(resultString.getBytes(charsetname)));
         } catch (Exception exception) {
         }
+        assert resultString != null;
         return resultString.toUpperCase();
     }
 

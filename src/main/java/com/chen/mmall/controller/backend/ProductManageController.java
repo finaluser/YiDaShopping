@@ -12,10 +12,7 @@ import com.chen.mmall.util.PropertiesUtil;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -161,7 +158,7 @@ public class ProductManageController {
      * @param request
      * @return
      */
-    @GetMapping(value = "/upload")
+    @PostMapping(value = "/upload")
     public ServerResponse upload(HttpSession session, @RequestParam(value = "upload_file", required = false) MultipartFile file, HttpServletRequest request) {
         User user = (User) session.getAttribute(Const.CURRENT_USER);
         if (user == null) {
@@ -189,8 +186,10 @@ public class ProductManageController {
      * @param response
      * @return
      */
-    @RequestMapping(value = "/richtext_img_upload")
-    public Map richTextImgUpload(HttpSession session, @RequestParam(value = "upload_file", required = false) MultipartFile file, HttpServletRequest request, HttpServletResponse response) {
+    @PostMapping(value = "/richtext_img_upload")
+    public Map richTextImgUpload(HttpSession session,
+                                 @RequestParam(value = "upload_file", required = false) MultipartFile file,
+                                 HttpServletRequest request, HttpServletResponse response) {
         Map resultMap = Maps.newHashMap();
 
         User user = (User) session.getAttribute(Const.CURRENT_USER);

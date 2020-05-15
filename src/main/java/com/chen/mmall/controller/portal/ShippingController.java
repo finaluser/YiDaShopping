@@ -1,15 +1,17 @@
 package com.chen.mmall.controller.portal;
 
-import com.github.pagehelper.PageInfo;
 import com.chen.mmall.common.Const;
 import com.chen.mmall.common.ResponseCode;
 import com.chen.mmall.common.ServerResponse;
 import com.chen.mmall.pojo.Shipping;
 import com.chen.mmall.pojo.User;
 import com.chen.mmall.service.IShippingService;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
 
