@@ -14,7 +14,7 @@ spring:
 #    driver-class-name: com.mysql.cj.jdbc.Driver
     driver-class-name: com.p6spy.engine.spy.P6SpyDriver
     url: jdbc:p6spy:mysql://localhost:3306/mmall_learning?serverTimezone=UTC&characterEncoding=utf-8
-    username: 数据库账号
+    username: 数据库用户名
     password: 数据库密码
     type: com.zaxxer.hikari.HikariDataSource
     hikari:
